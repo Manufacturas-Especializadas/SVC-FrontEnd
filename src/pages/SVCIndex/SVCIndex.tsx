@@ -56,14 +56,13 @@ export const SVCIndex = () => {
         setSelectedImage(null);
         setPartNumber(null);
         setOcrProgress(0);
-
         if (fileInputRef.current) fileInputRef.current.value = "";
     };
 
     return (
         <div className="min-h-screen bg-slate-50 p-4 flex flex-col items-center justify-center">
             <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="bg-primary p-6 text-center">
+                <div className="bg-blue-600 p-6 text-center">
                     <h1 className="text-white text-xl font-bold flex items-center justify-center gap-2">
                         <ScanLine className="w-6 h-6" />
                         Verificador de material
@@ -76,21 +75,22 @@ export const SVCIndex = () => {
                 <div className="p-6 space-y-6">
                     {
                         !selectedImage ? (
-                            <div
+                            <label
+                                htmlFor="camera-input"
                                 className="border-2 border-dashed border-blue-200 rounded-xl p-8 flex flex-col 
                                 items-center justify-center cursor-pointer hover:bg-blue-50 transition-colors 
-                                group h-64"
+                                group h-64 relative"
                             >
                                 <div className="bg-blue-100 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
                                     <Camera className="w-8 h-8 text-blue-600" />
                                 </div>
                                 <p className="text-gray-600 font-medium text-center">
-                                    Toca pra tomar foto <br /> o subir imagen
+                                    Toca para abrir cámara <br /> o galería
                                 </p>
                                 <p className="text-xs text-gray-400 mt-2">
                                     Soporta JPG, PNG
                                 </p>
-                            </div>
+                            </label>
                         ) : (
                             <div className="relative rounded-xl overflow-hidden shadow-sm border border-gray-200">
                                 <img
@@ -103,7 +103,7 @@ export const SVCIndex = () => {
                                         <button
                                             onClick={handleReset}
                                             className="absolute top-2 right-2 bg-white/90 p-2 rounded-full text-red-500
-                                            shadow-sm hover:bg-red-50"
+                                            shadow-sm hover:bg-red-50 z-10"
                                         >
                                             <X className="w-5 h-5" />
                                         </button>
@@ -113,16 +113,16 @@ export const SVCIndex = () => {
                                 {
                                     isProcessing && (
                                         <div className="absolute inset-0 bg-black/60 flex flex-col items-center 
-                                        justify-center text-white backdrop-blur-sm">
+                                            justify-center text-white backdrop-blur-sm z-20">
                                             <Loader2 className="w-10 h-10 animate-spin mb-2" />
                                             <p className="font-semibold">Analizando imagen...</p>
-                                            <div className="w-3/4 bg-gray-700 rounded-full mt-2 overflow-hidden">
+                                            <div className="w-3/4 bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
                                                 <div
                                                     className="bg-blue-500 h-full transition-all duration-300"
-                                                    style={{ width: `${ocrProgress}` }}
+                                                    style={{ width: `${ocrProgress}%` }}
                                                 ></div>
-                                                <p className="text-xs mt-1">{ocrProgress}%</p>
                                             </div>
+                                            <p className="text-xs mt-1">{ocrProgress}%</p>
                                         </div>
                                     )
                                 }
@@ -131,10 +131,12 @@ export const SVCIndex = () => {
                     }
 
                     <input
+                        id="camera-input"
                         type="file"
                         ref={fileInputRef}
                         className="hidden"
                         accept="image/*"
+                        capture="environment"
                         onChange={handleImageChange}
                     />
 
