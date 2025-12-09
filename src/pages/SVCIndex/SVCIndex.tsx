@@ -135,7 +135,6 @@ export const SVCIndex = () => {
                         ref={fileInputRef}
                         className="hidden"
                         accept="image/*"
-                        capture="environment"
                         onChange={handleImageChange}
                     />
 
